@@ -1,7 +1,18 @@
+using CRUD_DatabaseFirstApproachEFCore.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var provider = builder.Services.BuildServiceProvider();
+var config = provider.GetRequiredService<IConfiguration>();
+builder.Services.AddDbContext<CodeFirstApproachDbContext>(item => item.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+//dependency injection
+//builder.Services.AddDbContext<CodeFirstApproachDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
